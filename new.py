@@ -1,5 +1,8 @@
 import random
 
+def GetName():
+  name = input("Enter your name: ")
+  return name
 def GetRowColumn():
   print()
   Column = int(input("Please enter column: "))
@@ -102,13 +105,16 @@ def PrintBoard(Board):
         print(" | ", end="")
     print()
        
-def DisplayMenu():
+def DisplayMenu(name):
+  
   print("MAIN MENU")
-  print()
+  print("")
+  print(str(name))
+  print("")
   print("1. Start new game")
   print("2. Load training game")
   print("9. Quit")
-  print()
+  print("")
     
 def GetMainMenuChoice():
   print("Please enter your choice: ", end="")
@@ -130,13 +136,14 @@ if __name__ == "__main__":
   TRAININGGAME = "Training.txt"
   MenuOption = 0
   while not MenuOption == 9:
+    name = GetName()
     Board = SetUpBoard()
     Ships = [["Aircraft Carrier", 5], ["Battleship", 4], ["Submarine", 3], ["Destroyer", 3], ["Patrol Boat", 2]]
-    DisplayMenu()
+    DisplayMenu(name)
     MenuOption = GetMainMenuChoice()
     if MenuOption == 1:
       PlaceRandomShips(Board, Ships)
       PlayGame(Board,Ships)
     if MenuOption == 2:
       LoadGame(TRAININGGAME, Board)
-      PlayGame(Board, Ships)   
+      PlayGame(Board, Ships) 
