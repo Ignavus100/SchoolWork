@@ -117,9 +117,15 @@ def DisplayMenu(name):
   print("")
     
 def GetMainMenuChoice():
-  print("Please enter your choice: ", end="")
-  Choice = int(input())
-  print()
+  new = False
+  while new == False:
+    print("Please enter your choice: ", end="")
+    Choice = int(input())
+    if Choice != int:
+      print("Invalid choice. Please try again.")
+    else:
+      new = True
+    print()
   return Choice
 
 def PlayGame(Board, Ships):
