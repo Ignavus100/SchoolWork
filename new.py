@@ -5,21 +5,28 @@ def GetName():
   return name
 def GetRowColumn():
   print()
-  Column = int(input("Please enter column: "))
-  Row = int(input("Please enter row: "))
+  Column = 10
+  Row = 10
+  while Column not in range(0, 10):
+    Column = int(input("Please enter column: "))
+  while Row not in range(0, 10):  
+    Row = int(input("Please enter row: "))
   print()
   return Row, Column
             
-def MakePlayerMove(Board, Ships):
+def MakePlayerMove(Board, Ships, moves):
   Row, Column = GetRowColumn()
   if Board[Row][Column] == "m" or Board[Row][Column] == "h":
     print("Sorry, you have already shot at the square (" + str(Column) + "," + str(Row) + "). Please try again.")
   elif Board[Row][Column] == "-":
     print("Sorry, (" + str(Column) + "," + str(Row) + ") is a miss.")
     Board[Row][Column] = "m"
+    moves += 1
   else:
     print("Hit at (" + str(Column) + "," + str(Row) + ").")
     Board[Row][Column] = "h"
+    moves += 1
+  return moves
         
 def SetUpBoard():
   Board = []
@@ -84,9 +91,11 @@ def CheckWin(Board):
         return False
   return True
  
-def PrintBoard(Board):
+def PrintBoard(Board, moves):
   print()
   print("The board looks like this: ")  
+  print()
+  print("You have made " + str(moves) + " moves.")
   print()
   print (" ", end="")
   for Column in range(10):
@@ -104,6 +113,7 @@ def PrintBoard(Board):
       if Column != 9:
         print(" | ", end="")
     print()
+  return moves
        
 def DisplayMenu(name):
   
@@ -120,19 +130,21 @@ def GetMainMenuChoice():
   new = False
   while new == False:
     print("Please enter your choice: ", end="")
-    Choice = int(input())
-    if Choice != int:
-      print("Invalid choice. Please try again.")
-    else:
+    try:
+      Choice = int(input())
       new = True
+    except:
+      print()
+      print("Invalid input")
     print()
   return Choice
 
 def PlayGame(Board, Ships):
   GameWon = False
+  moves = 0
   while not GameWon:
-    PrintBoard(Board)
-    MakePlayerMove(Board, Ships)
+    PrintBoard(Board, moves)
+    moves = MakePlayerMove(Board, Ships, moves)
     GameWon = CheckWin(Board)
     if GameWon:
       print("All ships sunk!")
