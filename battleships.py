@@ -1,8 +1,21 @@
 import random
 
+def CheckSunk(board, row, column, ships, points):
+  for i in range(len(points)):
+    print(list(points.values())[i])
+    print(ships[i][1])
+    if [row, column] in list(points.values())[i]:
+      ships[i][1] -= 1
+      if ships[i][1] == 0:
+        print("you have sunk the "+ ships[i][0])
+        del ships[i]
+  return ships
+      
+
 def GetName():
   name = input("Enter your name: ")
   return name
+
 def GetRowColumn():
   print()
   Column = 10
@@ -14,7 +27,7 @@ def GetRowColumn():
   print()
   return Row, Column
             
-def MakePlayerMove(Board, Ships, moves):
+def MakePlayerMove(Board, Ships, moves, points):
   Row, Column = GetRowColumn()
   if Board[Row][Column] == "m" or Board[Row][Column] == "h":
     print("Sorry, you have already shot at the square (" + str(Column) + "," + str(Row) + "). Please try again.")
@@ -26,7 +39,8 @@ def MakePlayerMove(Board, Ships, moves):
     print("Hit at (" + str(Column) + "," + str(Row) + ").")
     Board[Row][Column] = "h"
     moves += 1
-  return moves
+    Ships = CheckSunk(Board, Row, Column, Ships, points)
+  return moves, Ships
         
 def SetUpBoard():
   Board = []
@@ -46,6 +60,7 @@ def LoadGame(Filename, Board):
   BoardFile.close()
     
 def PlaceRandomShips(Board, Ships):
+  points = {}
   for Ship in Ships:
     Valid = False
     while not Valid:
@@ -58,15 +73,20 @@ def PlaceRandomShips(Board, Ships):
         Orientation = "h" 
       Valid = ValidateBoatPosition(Board, Ship, Row, Column, Orientation)
     print("Computer placing the " + Ship[0])
-    PlaceShip(Board, Ship, Row, Column, Orientation)
+    points[Ship[0]] = PlaceShip(Board, Ship, Row, Column, Orientation)
+  return points
 
 def PlaceShip(Board, Ship, Row, Column, Orientation):
+  points = []
   if Orientation == "v":
     for Scan in range(Ship[1]):
       Board[Row + Scan][Column] = Ship[0][0]
+      points.append([(Row + Scan), Column])
   elif Orientation == "h":
     for Scan in range(Ship[1]):
       Board[Row][Column + Scan] = Ship[0][0]
+      points.append([Row, (Column + Scan)])
+  return points
 
 def ValidateBoatPosition(Board, Ship, Row, Column, Orientation):
   if Orientation == "v" and Row + Ship[1] > 10:
@@ -139,12 +159,12 @@ def GetMainMenuChoice():
     print()
   return Choice
 
-def PlayGame(Board, Ships):
+def PlayGame(Board, Ships, points):
   GameWon = False
   moves = 0
   while not GameWon:
     PrintBoard(Board, moves)
-    moves = MakePlayerMove(Board, Ships, moves)
+    moves, Ships = MakePlayerMove(Board, Ships, moves, points)
     GameWon = CheckWin(Board)
     if GameWon:
       print("All ships sunk!")
@@ -160,8 +180,9 @@ if __name__ == "__main__":
     DisplayMenu(name)
     MenuOption = GetMainMenuChoice()
     if MenuOption == 1:
-      PlaceRandomShips(Board, Ships)
-      PlayGame(Board,Ships)
+      points = PlaceRandomShips(Board, Ships)
+      print(points)
+      PlayGame(Board,Ships, points)
     if MenuOption == 2:
       LoadGame(TRAININGGAME, Board)
-      PlayGame(Board, Ships) 
+      PlayGame(Board, Ships, points) 

@@ -1,5 +1,5 @@
 value = int(input("enter a 2 digit intager: "))
-operation = input("calculate additive or multiplicative persistence (a or b)").lower()
+operation = input("calculate additive or multiplicative persistence (a or m)").lower()
 i = 0
 while value > 9:
     if operation == "a":
