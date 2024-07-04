@@ -2,8 +2,6 @@ import random
 
 def CheckSunk(board, row, column, ships, points):
   for i in range(len(points)):
-    print(list(points.values())[i])
-    print(ships[i][1])
     if [row, column] in list(points.values())[i]:
       ships[i][1] -= 1
       if ships[i][1] == 0:
@@ -34,7 +32,7 @@ def MakePlayerMove(Board, Ships, moves, points):
   elif Board[Row][Column] == "-":
     print("Sorry, (" + str(Column) + "," + str(Row) + ") is a miss.")
     Board[Row][Column] = "m"
-    moves += 1
+    moves += 2
   else:
     print("Hit at (" + str(Column) + "," + str(Row) + ").")
     Board[Row][Column] = "h"
@@ -159,7 +157,7 @@ def GetMainMenuChoice():
     print()
   return Choice
 
-def PlayGame(Board, Ships, points):
+def PlayGame(Board, Ships, points, highScore):
   GameWon = False
   moves = 0
   while not GameWon:
@@ -169,10 +167,17 @@ def PlayGame(Board, Ships, points):
     if GameWon:
       print("All ships sunk!")
       print()
+      print("You win in " + str(moves) + " moves!")
+      if highScore > moves:
+        highScore = moves
+      print("highscore is " + str(highScore))
+    elif moves > 50:
+      print("You have run out of moves! Game over.")
 
 if __name__ == "__main__":
   TRAININGGAME = "Training.txt"
   MenuOption = 0
+  highScore = 999
   while not MenuOption == 9:
     name = GetName()
     Board = SetUpBoard()
@@ -182,7 +187,7 @@ if __name__ == "__main__":
     if MenuOption == 1:
       points = PlaceRandomShips(Board, Ships)
       print(points)
-      PlayGame(Board,Ships, points)
+      PlayGame(Board,Ships, points, highScore)
     if MenuOption == 2:
       LoadGame(TRAININGGAME, Board)
-      PlayGame(Board, Ships, points) 
+      PlayGame(Board, Ships, points, highScore) 
