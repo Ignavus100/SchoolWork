@@ -2,6 +2,7 @@ planets = int(input("number of planets"))
 planetFacts = []
 value = []
 for i in range(planets):
-    planetFacts[i] = input("planet", str(i)).split()
-    value[i] = int(planetFacts[i][0])/(0.5 * int(planetFacts[i][1]) * int(planetFacts[i][1]))
-print(value.max())
+    planetFacts.append(input("planet " + str(i+ 1)).split())
+    value.append(float(planetFacts[i][0])/(0.5 * float(planetFacts[i][1]) * float(planetFacts[i][1])))
+    
+print(value.index(max(value)) + 1)
