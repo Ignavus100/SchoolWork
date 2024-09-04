@@ -1,37 +1,41 @@
 List = []
 intager = int(input("factor number: "))
 def nextPrime(prev):
-    prime = False
     i = prev + 1
-    if isPrime(i):
-        return i 
-def isPrime(intager):
-    flag = False
-    if intager == 0 or intager == 1:
-        return False
-    elif intager > 1:
-        for i in range(2, int(intager)):
-            if (intager % i) == 0:
-            # if factor is found, set flag to True
-                flag = True
-            # break out of loop
+    while not(isPrime(i)):
+        i+=1
+    return i
+def isPrime(num):
+    num = int(num)
+    if num > 1:
+  
+    # Iterate from 2 to n // 2
+        for i in range(2, (num//2)+1):
+      
+        # If num is divisible by any number between
+        # 2 and n / 2, it is not prime
+            if (num % i) == 0:
+                return False
                 break
-
-    # check if flag is True
-    if flag:
-        return False
+        else:
+            return True
     else:
-        return True
-def main(intager):
-    prime = 2
+        return False
+def main(intager, List):
     if isPrime(intager):
         List.append(int(intager))
-        print(List)
+        List.sort()
+        for i in range(len(List)):
+            if i == len(List)-1:
+                print(List[i])
+            else:
+                print(List[i], "x", end=" ")
         exit()
-    else:
+    prime = 2
+    if not(isPrime(intager)):
         while intager % prime != 0:
             prime = nextPrime(prime)
     List.append(int(prime))
     intager = intager / prime
-    main(intager)
-main(intager)
+    main(intager, List)    
+main(intager, List)
