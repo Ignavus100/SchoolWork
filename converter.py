@@ -12,15 +12,16 @@ def main():
     for i in range(len(num)):
         num[i] = int(num[i])
         numb += num[i]*(startBase**(len(num)-(i+1)))
-        print(numb)
     conversion = []
     while numb > 0:
         conversion.append(numb % endBase)
         numb = numb // endBase
     for i in range(len(conversion)):
         if conversion[i]>9:
-            conversion[i] = endUnitsLetter[i]
+            conversion[i] = endUnitsLetter[endUnitsint.index(conversion[i])]
         conversion[i] = str(conversion[i])
     conversion.reverse()
-    print(conversion)
+    for i in range(len(conversion)):
+        print(conversion[i], end="")
+    print()
 main()
