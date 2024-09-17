@@ -1,8 +1,8 @@
 def main():
     startBase = int(input("beginning base: "))
     endBase = int(input("end base: "))
-    endUnitsint = [10, 11, 12, 13, 14, 15]
-    endUnitsLetter = ["A", "B", "C", "D", "E", "F"]
+    endUnitsint = [10, 11, 12, 13, 14, 15, 16]
+    endUnitsLetter = ["A", "B", "C", "D", "E", "F", "G"]
     num = input("number: ").upper()
     numb = 0
     num = list(num)
