@@ -14,7 +14,7 @@ class Pokemon():
         print(self.name)
     def Attack(self, other, val):
         print(self.name + " Attacks " + other.name)
-        val -= other.df/10
+        val -= other.df//10
         other.hp -= val
         print(other.name + " is on " + str(other.hp) + "hp")
     def Fade(self):
