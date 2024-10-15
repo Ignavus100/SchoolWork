@@ -80,9 +80,13 @@ def main():
             else:
                 print("you have picked up a peach. (+30hp)")
             other.Attack(choice, random.randint(5, 15))
-        if other.hp <= 0 or choice.hp <= 0:
-            choice.Fade()
+        if other.hp <= 0:
             other.Fade()
+            Lost = False
+            GameOver = True
+        if choice.hp <= 0:
+            choice.fade()
+            Lost = True
             GameOver = True
     if Lost:
         print("YOU LOST!!!")
